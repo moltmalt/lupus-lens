@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { PatientSelector } from '@/features/capture/PatientSelector';
 import { RetinaViewport } from '@/features/capture/RetinaViewport';
 import { VectorInput } from '@/features/transcriptomics/VectorInput';
+import { MicroarrayConverter } from '@/features/report/MicroarrayConverter';
 import { ProcessingOverlay } from '@/features/inference/ProcessingOverlay';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +23,7 @@ export function CaptureHubPage() {
         setRawInput,
         pasteFromClipboard,
         geneCount,
+        parsedGenes,
         isComplete,
         status,
         progress,
@@ -70,17 +72,17 @@ export function CaptureHubPage() {
                 <PatientSelector />
 
                 {/* 2) Camera + Gene Input — side by side on md+ */}
-                <div className="flex flex-col md:flex-row gap-2">
+                <div className="flex flex-col md:flex-row gap-2 md:items-stretch">
                     {/* Retina viewport */}
                     <div className="w-full md:w-1/2">
-                        <Card>
+                        <Card className="h-full flex flex-col">
                             <CardHeader className="py-1.5 px-2">
                                 <CardTitle className="flex items-center gap-1.5 text-sm">
                                     <ScanEye className="h-4 w-4 text-primary" />
                                     Retinal Capture
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="p-2 pt-0">
+                            <CardContent className="p-2 pt-0 flex-1">
                                 <RetinaViewport
                                     onCapture={captureImage}
                                     onRetake={retake}
@@ -93,14 +95,20 @@ export function CaptureHubPage() {
 
                     {/* Gene input */}
                     <div className="w-full md:w-1/2">
-                        <Card>
+                        <Card className="h-full flex flex-col">
                             <CardHeader className="py-1.5 px-2">
                                 <CardTitle className="flex items-center gap-1.5 text-sm">
                                     <Dna className="h-4 w-4 text-primary" />
                                     Gene Panel
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="p-2 pt-0">
+                            <CardContent className="p-2 pt-0 space-y-4 flex-1 flex flex-col">
+                                <MicroarrayConverter
+                                    variant="compact"
+                                    values={parsedGenes}
+                                    onValuesChange={(vals) => setRawInput(vals.join(', '))}
+                                />
+
                                 <VectorInput
                                     value={rawInput}
                                     onChange={setRawInput}

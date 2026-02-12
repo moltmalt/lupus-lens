@@ -4,6 +4,7 @@ import { usePatientStore } from '@/stores/patientStore';
 import { RiskScore } from '@/features/report/RiskScore';
 import { GradCamView } from '@/features/report/GradCamView';
 import { GeneBarChart } from '@/features/report/GeneBarChart';
+import { MicroarrayConverter } from '@/features/report/MicroarrayConverter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -119,6 +120,9 @@ export function PatientProfilePage() {
                         <>
                             {/* Risk score */}
                             <RiskScore value={viewedAssessment.riskScore} />
+
+                            {/* Microarray Converter Tool */}
+                            <MicroarrayConverter />
 
                             {/* GradCAM + Gene chart side by side */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
