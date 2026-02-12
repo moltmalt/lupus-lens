@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { usePatientStore } from '@/stores/patientStore';
 import { RiskScore } from '@/features/report/RiskScore';
@@ -12,10 +12,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { RISK_THRESHOLDS } from '@/lib/constants';
 import {
-    ArrowLeft, FileText, CalendarPlus, UserCheck,
-    Clock, ChevronRight, Download,
+    ArrowLeft, CalendarPlus, UserCheck,
+    Clock, ChevronRight, Download, Loader2,
 } from 'lucide-react';
-import type { Assessment } from '@/types';
+
 
 function formatDate(ts: string) {
     return new Date(ts).toLocaleDateString(undefined, {
@@ -40,8 +40,31 @@ export function PatientProfilePage() {
     const navigate = useNavigate();
     const patient = usePatientStore((s) => s.patients.find((p) => p.id === patientId));
     const updatePatient = usePatientStore((s) => s.updatePatient);
+    const fetchPatients = usePatientStore((s) => s.fetchPatients);
+    const loading = usePatientStore((s) => s.loading);
     const [selectedAssessmentId, setSelectedAssessmentId] = useState<string | null>(null);
-    const [notes, setNotes] = useState(patient?.clinicianNotes ?? '');
+    const [notes, setNotes] = useState('');
+
+    useEffect(() => {
+        if (!patient) {
+            fetchPatients();
+        }
+    }, [patientId, fetchPatients, patient]);
+
+    useEffect(() => {
+        if (patient) {
+            setNotes(patient.clinicianNotes);
+        }
+    }, [patient]);
+
+    if (loading && !patient) {
+        return (
+            <div className="flex flex-col items-center justify-center h-[60vh] text-muted-foreground space-y-3">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <p className="text-sm">Loading patient profile...</p>
+            </div>
+        );
+    }
 
     if (!patient) {
         return (

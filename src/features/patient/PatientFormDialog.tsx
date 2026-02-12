@@ -32,12 +32,12 @@ export function PatientFormDialog({ open, onOpenChange, editPatient }: PatientFo
         }
     }, [editPatient, open]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!code.trim()) return;
         if (isEdit && editPatient) {
-            updatePatient(editPatient.id, { code: code.trim(), clinicianNotes: notes.trim() });
+            await updatePatient(editPatient.id, { code: code.trim(), clinicianNotes: notes.trim() });
         } else {
-            addPatient(code.trim(), notes.trim());
+            await addPatient(code.trim(), notes.trim());
         }
         onOpenChange(false);
     };

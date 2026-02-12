@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePatientStore } from '@/stores/patientStore';
 import { useSessionStore } from '@/stores/appStore';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,9 +14,12 @@ import { UserPlus, Check } from 'lucide-react';
 export function PatientSelector() {
     const patients = usePatientStore((s) => s.patients);
     const addPatient = usePatientStore((s) => s.addPatient);
+    const fetchPatients = usePatientStore((s) => s.fetchPatients);
     const { selectedPatientId, selectPatient } = useSessionStore();
     const [newCode, setNewCode] = useState('');
     const [mode, setMode] = useState<'search' | 'new'>('search');
+
+    useEffect(() => { fetchPatients(); }, [fetchPatients]);
 
     const selectedPatient = patients.find((p) => p.id === selectedPatientId);
 
@@ -24,9 +27,9 @@ export function PatientSelector() {
         selectPatient(id);
     };
 
-    const handleCreateNew = () => {
+    const handleCreateNew = async () => {
         if (!newCode.trim()) return;
-        const id = addPatient(newCode.trim());
+        const id = await addPatient(newCode.trim());
         selectPatient(id);
         setNewCode('');
         setMode('search');

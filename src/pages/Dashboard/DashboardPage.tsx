@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PatientTable } from '@/features/patient/PatientTable';
 import { PatientFormDialog } from '@/features/patient/PatientFormDialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserPlus, Users } from 'lucide-react';
+import { usePatientStore } from '@/stores/patientStore';
 import type { Patient } from '@/types';
 
 export function DashboardPage() {
+    const fetchPatients = usePatientStore((s) => s.fetchPatients);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editPatient, setEditPatient] = useState<Patient | null>(null);
+
+    useEffect(() => { fetchPatients(); }, [fetchPatients]);
 
     const handleEdit = (patient: Patient) => {
         setEditPatient(patient);

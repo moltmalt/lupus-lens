@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { parseGeneVector } from '@/lib/validators';
 import { REQUIRED_GENE_COUNT, GENE_PANEL } from '@/lib/constants';
 import { predictAndExplain } from '@/lib/api';
+import { uploadScanImage } from '@/lib/supabase';
 import type { SessionState, GeneContribution } from '@/types';
 import { usePatientStore } from './patientStore';
 
@@ -55,22 +56,24 @@ export const useSessionStore = create<SessionState>()(
             progress: 0,
             statusText: '',
             startInference: async () => {
-                const { imageBlob, parsedGenes, selectedPatientId, imagePreviewUrl } = get();
+                const { imageBlob, parsedGenes, selectedPatientId } = get();
                 if (!imageBlob || parsedGenes.length !== REQUIRED_GENE_COUNT || !selectedPatientId) return;
 
-                set({ status: 'loading', progress: 10, statusText: 'Connecting to Swin-SNN model…' });
+                set({ status: 'loading', progress: 5, statusText: 'Uploading retinal image…' });
 
                 try {
-                    // Build comma-separated gene string
-                    const geneString = parsedGenes.join(', ');
+                    // 1) Upload retinal image to Supabase Storage
+                    const imageUrl = await uploadScanImage(imageBlob, 'retinal.png');
+                    set({ progress: 15, statusText: 'Connecting to Swin-SNN model…' });
 
-                    set({ progress: 20, statusText: 'Uploading retinal image…' });
+                    // 2) Call HuggingFace model
+                    const geneString = parsedGenes.join(', ');
+                    set({ progress: 25, statusText: 'Running Swin-SNN inference…' });
 
                     const result = await predictAndExplain(imageBlob, geneString);
+                    set({ progress: 85, statusText: 'Saving results…' });
 
-                    set({ progress: 90, statusText: 'Processing results…' });
-
-                    // Extract risk score: use the SLE confidence (or rawScore) as percentage
+                    // 3) Extract risk score from model output
                     const sleConfidence = result.confidences.find(
                         (c) => c.label.toUpperCase().includes('SLE')
                     );
@@ -78,28 +81,29 @@ export const useSessionStore = create<SessionState>()(
                         (sleConfidence ? sleConfidence.confidence : result.rawScore) * 100
                     );
 
-                    // Overall model confidence (highest confidence value)
                     const topConfidence = Math.max(
                         ...result.confidences.map((c) => c.confidence)
                     );
 
-                    // Build gene contributions from the parsed genes
                     const contributions: GeneContribution[] = parsedGenes.map((v, i) => ({
                         gene: GENE_PANEL[i] ?? `Gene${i + 1}`,
                         value: v,
-                        contribution: v, // raw expression value as contribution
+                        contribution: v,
                     }));
 
-                    // Save assessment to patient store
-                    usePatientStore.getState().addAssessment(selectedPatientId, {
-                        id: `a${Date.now()}`,
-                        timestamp: new Date().toISOString(),
+                    // 4) Save assessment to Supabase via patient store
+                    await usePatientStore.getState().addAssessment(selectedPatientId, {
                         riskScore,
                         confidence: parseFloat(topConfidence.toFixed(2)),
-                        imageUrl: imagePreviewUrl,
+                        imageUrl,
                         gradCamUrl: result.heatmapUrl,
                         geneVector: parsedGenes,
                         geneContributions: contributions,
+                    });
+
+                    // 5) Also update patient status to completed
+                    await usePatientStore.getState().updatePatient(selectedPatientId, {
+                        status: 'completed',
                     });
 
                     set({ status: 'success', progress: 100, statusText: 'Analysis complete' });

@@ -66,10 +66,12 @@ export type SessionState = CaptureState & TranscriptomicsState & InferenceState;
 // ── Patient Store ────────────────────────────────────
 export interface PatientStoreState {
     patients: Patient[];
-    addPatient: (code: string, notes?: string) => string;
-    updatePatient: (id: string, data: Partial<Pick<Patient, 'code' | 'status' | 'clinicianNotes'>>) => void;
-    deletePatient: (id: string) => void;
-    addAssessment: (patientId: string, assessment: Assessment) => void;
+    loading: boolean;
+    fetchPatients: () => Promise<void>;
+    addPatient: (code: string, notes?: string) => Promise<string>;
+    updatePatient: (id: string, data: Partial<Pick<Patient, 'code' | 'status' | 'clinicianNotes'>>) => Promise<void>;
+    deletePatient: (id: string) => Promise<void>;
+    addAssessment: (patientId: string, assessment: Omit<Assessment, 'id' | 'timestamp'> & { id?: string; timestamp?: string }) => Promise<void>;
     getPatient: (id: string) => Patient | undefined;
 }
 
