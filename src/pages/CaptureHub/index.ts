@@ -1,0 +1,1 @@
+export { CaptureHubPage } from './CaptureHubPage';
