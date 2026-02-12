@@ -12,7 +12,7 @@ import {
     DropdownMenuItem, DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import {
-    AlertDialog, AlertDialogTrigger, AlertDialogContent,
+    AlertDialog, AlertDialogContent,
     AlertDialogHeader, AlertDialogTitle, AlertDialogDescription,
     AlertDialogFooter, AlertDialogCancel, AlertDialogAction,
 } from '@/components/ui/alert-dialog';
