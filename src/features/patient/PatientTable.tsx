@@ -70,7 +70,7 @@ export function PatientTable({ onEdit }: PatientTableProps) {
                     placeholder="Search by Patient Code…"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="pl-9"
+                    className="pl-9 focus-visible:ring-2 focus-visible:ring-[#6243FC] focus-visible:border-[#6243FC]"
                 />
             </div>
 
@@ -78,14 +78,14 @@ export function PatientTable({ onEdit }: PatientTableProps) {
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>Patient Code</TableHead>
-                            <TableHead className="hidden sm:table-cell">Last Scan</TableHead>
-                            <TableHead>Risk</TableHead>
-                            <TableHead className="hidden md:table-cell">Status</TableHead>
-                            <TableHead className="hidden md:table-cell text-center"># Scans</TableHead>
-                            <TableHead className="hidden lg:table-cell">Notes</TableHead>
-                            <TableHead className="w-10" />
+                        <TableRow style={{ backgroundColor: '#6243FC' }}>
+                            <TableHead className="text-white font-semibold">Patient Code</TableHead>
+                            <TableHead className="hidden sm:table-cell text-white font-semibold">Last Scan</TableHead>
+                            <TableHead className="text-white font-semibold">Risk</TableHead>
+                            <TableHead className="hidden md:table-cell text-white font-semibold">Status</TableHead>
+                            <TableHead className="hidden md:table-cell text-center text-white font-semibold"># Scans</TableHead>
+                            <TableHead className="hidden lg:table-cell text-white font-semibold">Notes</TableHead>
+                            <TableHead className="w-10 text-white font-semibold" />
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -108,14 +108,21 @@ export function PatientTable({ onEdit }: PatientTableProps) {
                                 return (
                                     <TableRow
                                         key={patient.id}
-                                        className="cursor-pointer"
+                                        className="cursor-pointer hover:bg-[#B7A9FD]/30"
                                         onClick={() => navigate(`/patients/${patient.id}`)}
                                     >
                                         <TableCell className="font-medium">{patient.code}</TableCell>
                                         <TableCell className="hidden sm:table-cell text-muted-foreground">{date}</TableCell>
                                         <TableCell><RiskBadge level={risk} /></TableCell>
                                         <TableCell className="hidden md:table-cell">
-                                            <Badge variant={patient.status === 'completed' ? 'secondary' : 'outline'} className="text-xs capitalize">
+                                            <Badge 
+                                                variant={patient.status === 'completed' ? 'secondary' : 'outline'} 
+                                                className={cn(
+                                                    'text-xs capitalize',
+                                                    patient.status === 'completed' && 'bg-emerald-600 hover:bg-emerald-700 text-white',
+                                                    patient.status === 'pending' && 'bg-red-600 hover:bg-red-700 text-white'
+                                                )}
+                                            >
                                                 {patient.status}
                                             </Badge>
                                         </TableCell>

@@ -57,7 +57,14 @@ export function VectorInput({
             </div>
 
             {/* Progress bar */}
-            <Progress value={progressPercent} className="h-1.5" />
+            <div className="progress-purple">
+                <Progress value={progressPercent} className="h-1.5" />
+            </div>
+            <style>{`
+                .progress-purple .bg-primary {
+                    background-color: #6243FC !important;
+                }
+            `}</style>
 
             <Textarea
                 id="gene-input"
@@ -67,7 +74,7 @@ export function VectorInput({
 e.g. 0.82, 1.34, 0.21, 1.56, 0.93, 1.12, 0.45, 0.78, 1.23, 0.67, 1.45, 0.89, 1.01, 0.56, 1.78, 0.34, 0.91, 1.23, 0.65, 1.11"
                 rows={4}
                 className={cn(
-                    'font-mono text-xs',
+                    'font-mono text-xs focus-visible:ring-1 focus-visible:ring-[#6243FC] bg-[#B7A9FD]/20',
                     isComplete
                         ? 'border-emerald-500 ring-1 ring-emerald-500/30'
                         : error
@@ -85,8 +92,13 @@ e.g. 0.82, 1.34, 0.21, 1.56, 0.93, 1.12, 0.45, 0.78, 1.23, 0.67, 1.45, 0.89, 1.0
                 </p>
             )}
 
-            <Button variant="outline" size="default" onClick={onPaste} className="w-full">
-                <ClipboardPaste className="h-4 w-4 mr-1.5" />
+            <Button 
+                variant="outline" 
+                size="default" 
+                onClick={onPaste} 
+                className="w-full border-[#6243FC]"
+            >
+                <ClipboardPaste className="h-4 w-4 mr-1.5" style={{ color: '#6243FC' }} />
                 Paste from Clipboard
             </Button>
         </div>

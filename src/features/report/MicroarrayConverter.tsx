@@ -190,8 +190,12 @@ export function MicroarrayConverter({
                 {/* Buttons */}
                 <div className="flex flex-col gap-1.5">
                     <div className="relative">
-                        <Button variant="secondary" size="sm" className="w-full cursor-pointer relative overflow-hidden text-xs h-8">
-                            <Upload className="mr-1.5 h-3.5 w-3.5" />
+                        <Button 
+                            size="sm" 
+                            className="w-full cursor-pointer relative overflow-hidden text-xs h-8 hover:opacity-90"
+                            style={{ backgroundColor: '#6243FC', color: 'white' }}
+                        >
+                            <Upload className="mr-1.5 h-3.5 w-3.5" style={{ color: 'white' }} />
                             Upload Microarray
                             <input
                                 type="file"
@@ -203,8 +207,12 @@ export function MicroarrayConverter({
                     </div>
                     {previewUrl && (
                         <a href={previewUrl} download="microarray.png" className="block">
-                            <Button variant="secondary" size="sm" className="w-full text-xs h-8">
-                                <Download className="mr-1.5 h-3.5 w-3.5" />
+                            <Button 
+                                size="sm" 
+                                className="w-full text-xs h-8 hover:opacity-90"
+                                style={{ backgroundColor: '#6243FC', color: 'white' }}
+                            >
+                                <Download className="mr-1.5 h-3.5 w-3.5" style={{ color: 'white' }} />
                                 Save Image
                             </Button>
                         </a>
@@ -216,10 +224,10 @@ export function MicroarrayConverter({
 
     // ── Default variant (for Patient Profile) ────────────────────────────────
     return (
-        <Card className="w-full">
+        <Card className="w-full [&_*::selection]:bg-[#6243FC] [&_*::selection]:text-white">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                    <Grid3X3 className="h-5 w-5 text-primary" />
+                    <Grid3X3 className="h-5 w-5" style={{ color: '#6243FC' }} />
                     Microarray Converter
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -238,7 +246,7 @@ export function MicroarrayConverter({
                                 onClick={() => setLocalValues(DEFAULT_VALUES)}
                                 className="h-7 text-xs"
                             >
-                                <RefreshCw className="mr-1.5 h-3 w-3" />
+                                <RefreshCw className="mr-1.5 h-3 w-3" style={{ color: '#6243FC' }} />
                                 Reset Default
                             </Button>
                         </div>
@@ -252,7 +260,7 @@ export function MicroarrayConverter({
                                     <Input
                                         type="number"
                                         step="0.01"
-                                        className="h-8 px-1 text-center text-xs"
+                                        className="h-8 px-1 text-center text-xs focus-visible:ring-1 focus-visible:ring-[#6243FC]"
                                         value={val}
                                         onChange={(e) => handleValueChange(i, e.target.value)}
                                     />
@@ -261,13 +269,21 @@ export function MicroarrayConverter({
                         </div>
 
                         <div className="flex gap-2 pt-2">
-                            <Button className="flex-1" onClick={generateMicroarray}>
-                                <ArrowRightLeft className="mr-2 h-4 w-4" />
+                            <Button 
+                                className="flex-1 hover:opacity-90" 
+                                onClick={generateMicroarray}
+                                style={{ backgroundColor: '#6243FC' }}
+                            >
+                                <ArrowRightLeft className="mr-2 h-4 w-4" style={{ color: 'white' }} />
                                 Generate Image
                             </Button>
                             <div className="relative">
-                                <Button variant="secondary" className="w-full cursor-pointer relative overflow-hidden">
-                                    <Upload className="mr-2 h-4 w-4" />
+                                <Button 
+                                    variant="secondary" 
+                                    className="w-full cursor-pointer relative overflow-hidden hover:opacity-90"
+                                    style={{ backgroundColor: '#166534', color: '#ffffff' }}
+                                >
+                                    <Upload className="mr-2 h-4 w-4" style={{ color: '#ffffff' }} />
                                     Import Image
                                     <input
                                         type="file"
@@ -285,8 +301,8 @@ export function MicroarrayConverter({
                         <h3 className="text-sm font-medium text-muted-foreground self-start w-full flex justify-between">
                             Microarray Preview
                             {previewUrl && (
-                                <a href={previewUrl} download="microarray.png" className="text-xs text-primary hover:underline flex items-center">
-                                    <Download className="mr-1 h-3 w-3" /> Save
+                                <a href={previewUrl} download="microarray.png" className="text-xs hover:underline flex items-center" style={{ color: '#6243FC' }}>
+                                    <Download className="mr-1 h-3 w-3" style={{ color: '#6243FC' }} /> Save
                                 </a>
                             )}
                         </h3>

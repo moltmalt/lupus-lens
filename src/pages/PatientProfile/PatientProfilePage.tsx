@@ -61,7 +61,7 @@ export function PatientProfilePage() {
     if (loading && !patient) {
         return (
             <div className="flex flex-col items-center justify-center h-[60vh] text-muted-foreground space-y-3">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <Loader2 className="h-8 w-8 animate-spin" style={{ color: '#6243FC' }} />
                 <p className="text-sm">Loading patient profile...</p>
             </div>
         );
@@ -72,7 +72,7 @@ export function PatientProfilePage() {
             <div className="flex flex-col items-center justify-center h-[60vh] text-muted-foreground space-y-3">
                 <p className="text-sm">Patient not found.</p>
                 <Button variant="outline" size="sm" onClick={() => navigate('/')}>
-                    <ArrowLeft className="h-4 w-4 mr-1.5" /> Back to Dashboard
+                    <ArrowLeft className="h-4 w-4 mr-1.5" style={{ color: '#6243FC' }} /> Back to Dashboard
                 </Button>
             </div>
         );
@@ -87,11 +87,11 @@ export function PatientProfilePage() {
     };
 
     return (
-        <div className="p-2 space-y-2 max-w-6xl mx-auto">
+        <div className="p-2 space-y-2 max-w-6xl mx-auto [&_*::selection]:bg-[#6243FC] [&_*::selection]:text-white">
             {/* ── Header ──────────────────────────────────── */}
             <div className="flex items-center gap-2 flex-wrap">
                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => navigate('/')}>
-                    <ArrowLeft className="h-4 w-4" />
+                    <ArrowLeft className="h-4 w-4" style={{ color: '#6243FC' }} />
                 </Button>
                 <h1 className="text-lg font-semibold">{patient.code}</h1>
                 {latest && (
@@ -100,7 +100,7 @@ export function PatientProfilePage() {
                     </Badge>
                 )}
                 {latest && (
-                    <Badge variant="outline" className="text-xs ml-auto">
+                    <Badge variant="outline" className="text-xs ml-auto border-[#6243FC]">
                         Confidence: {(latest.confidence * 100).toFixed(0)}%
                     </Badge>
                 )}
@@ -109,9 +109,9 @@ export function PatientProfilePage() {
             {/* ── Tabs ────────────────────────────────────── */}
             <Tabs defaultValue="report">
                 <TabsList className="w-full sm:w-auto">
-                    <TabsTrigger value="report">Current Report</TabsTrigger>
-                    <TabsTrigger value="history">Past Reports</TabsTrigger>
-                    <TabsTrigger value="notes">Notes</TabsTrigger>
+                    <TabsTrigger value="report" className="data-[state=active]:bg-[#6243FC] data-[state=active]:text-white">Current Report</TabsTrigger>
+                    <TabsTrigger value="history" className="data-[state=active]:bg-[#6243FC] data-[state=active]:text-white">Past Reports</TabsTrigger>
+                    <TabsTrigger value="notes" className="data-[state=active]:bg-[#6243FC] data-[state=active]:text-white">Notes</TabsTrigger>
                 </TabsList>
 
                 {/* ── Current Report ────────────────────────── */}
@@ -142,7 +142,7 @@ export function PatientProfilePage() {
                             </div>
 
                             {/* Assessment metadata */}
-                            <Card>
+                            <Card className="bg-[#B7A9FD]/20">
                                 <CardContent className="p-2">
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
                                         <div>
@@ -190,7 +190,7 @@ export function PatientProfilePage() {
                             <Card
                                 key={a.id}
                                 className={cn(
-                                    'cursor-pointer transition-colors hover:bg-muted/50',
+                                    'cursor-pointer transition-colors hover:bg-muted/50 bg-[#B7A9FD]/20',
                                     selectedAssessmentId === a.id && 'ring-1 ring-primary'
                                 )}
                                 onClick={() => {
@@ -201,7 +201,7 @@ export function PatientProfilePage() {
                                 }}
                             >
                                 <CardContent className="flex items-center p-2 gap-3">
-                                    <Clock className="h-4 w-4 text-muted-foreground shrink-0" />
+                                    <Clock className="h-4 w-4 shrink-0" style={{ color: '#6243FC' }} />
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-medium">{formatDate(a.timestamp)}</p>
                                         <p className="text-xs text-muted-foreground">
@@ -211,7 +211,7 @@ export function PatientProfilePage() {
                                     <Badge className={cn('text-xs shrink-0', getRiskColor(a.riskScore))}>
                                         {a.riskScore}%
                                     </Badge>
-                                    <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                                    <ChevronRight className="h-4 w-4 shrink-0" style={{ color: '#6243FC' }} />
                                 </CardContent>
                             </Card>
                         ))
@@ -219,7 +219,7 @@ export function PatientProfilePage() {
                 </TabsContent>
 
                 {/* ── Notes ─────────────────────────────────── */}
-                <TabsContent value="notes" className="space-y-2">
+                <TabsContent value="notes" className="space-y-2 [&_*::selection]:bg-[#6243FC] [&_*::selection]:text-white">
                     <Card>
                         <CardHeader className="py-1.5 px-2">
                             <CardTitle className="text-sm">Clinician Notes</CardTitle>
@@ -230,8 +230,14 @@ export function PatientProfilePage() {
                                 onChange={(e) => setNotes(e.target.value)}
                                 placeholder="Add clinical observations, referral notes, follow-up plans…"
                                 rows={6}
+                                className="focus-visible:ring-2 focus-visible:ring-[#6243FC] focus-visible:border-[#6243FC]"
                             />
-                            <Button size="sm" onClick={handleSaveNotes}>
+                            <Button 
+                                size="sm" 
+                                onClick={handleSaveNotes}
+                                style={{ backgroundColor: '#6243FC' }}
+                                className="hover:opacity-90"
+                            >
                                 Save Notes
                             </Button>
                         </CardContent>
@@ -241,14 +247,29 @@ export function PatientProfilePage() {
 
             {/* ── Floating Actions ────────────────────────── */}
             <div className="fixed bottom-4 right-4 flex flex-col gap-2 z-40">
-                <Button size="sm" variant="secondary" className="shadow-lg">
-                    <Download className="h-4 w-4 mr-1.5" /> Save PDF
+                <Button 
+                    size="sm" 
+                    variant="secondary" 
+                    className="shadow-lg hover:opacity-90"
+                    style={{ backgroundColor: '#6243FC', color: 'white' }}
+                >
+                    <Download className="h-4 w-4 mr-1.5" style={{ color: 'white' }} /> Save PDF
                 </Button>
-                <Button size="sm" variant="secondary" className="shadow-lg">
-                    <UserCheck className="h-4 w-4 mr-1.5" /> Referral
+                <Button 
+                    size="sm" 
+                    variant="secondary" 
+                    className="shadow-lg hover:opacity-90"
+                    style={{ backgroundColor: '#B7A9FD', color: '#6243FC' }}
+                >
+                    <UserCheck className="h-4 w-4 mr-1.5" style={{ color: '#6243FC' }} /> Referral
                 </Button>
-                <Button size="sm" variant="secondary" className="shadow-lg">
-                    <CalendarPlus className="h-4 w-4 mr-1.5" /> Follow-up
+                <Button 
+                    size="sm" 
+                    variant="secondary" 
+                    className="shadow-lg hover:opacity-90"
+                    style={{ backgroundColor: '#B7A9FD', color: '#6243FC' }}
+                >
+                    <CalendarPlus className="h-4 w-4 mr-1.5" style={{ color: '#6243FC' }} /> Follow-up
                 </Button>
             </div>
         </div>

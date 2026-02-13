@@ -29,10 +29,15 @@ export function DashboardPage() {
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
                     <CardTitle className="flex items-center gap-1.5 text-base">
-                        <Users className="h-4 w-4 text-primary" />
+                        <Users className="h-4 w-4" style={{ color: '#6243FC' }} />
                         Patient Registry
                     </CardTitle>
-                    <Button size="sm" onClick={handleAdd}>
+                    <Button 
+                        size="sm" 
+                        onClick={handleAdd}
+                        style={{ backgroundColor: '#6243FC' }}
+                        className="hover:opacity-90"
+                    >
                         <UserPlus className="h-4 w-4 mr-1.5" />
                         Add Patient
                     </Button>

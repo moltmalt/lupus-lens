@@ -74,9 +74,12 @@ export function ClinicalLayout() {
                                 className={cn(
                                     'flex items-center gap-2 px-2 py-1.5 rounded-md text-sm font-medium transition-colors',
                                     active
-                                        ? 'bg-sidebar-active text-sidebar-active-foreground'
+                                        ? 'text-white'
                                         : 'text-sidebar-foreground hover:bg-sidebar-active/50 hover:text-foreground'
                                 )}
+                                style={active ? {
+                                    background: 'linear-gradient(to right, #B7A9FD 0%, #8B7CFD 20%, #6243FC 100%)'
+                                } : undefined}
                             >
                                 <item.icon className="h-3.5 w-3.5 shrink-0" />
                                 {!collapsed && <span className="truncate">{item.label}</span>}

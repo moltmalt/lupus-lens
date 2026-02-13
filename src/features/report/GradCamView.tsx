@@ -20,7 +20,7 @@ export function GradCamView({
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center gap-1.5">
-                    <Eye className="h-4 w-4 text-primary" />
+                    <Eye className="h-4 w-4" style={{ color: '#6243FC' }} />
                     Retinal GradCAM
                 </CardTitle>
             </CardHeader>
@@ -47,13 +47,23 @@ export function GradCamView({
                         <span>Original</span>
                         <span>Heatmap</span>
                     </div>
-                    <Slider
-                        value={[opacity * 100]}
-                        onValueChange={([v]) => setOpacity(v / 100)}
-                        max={100}
-                        step={1}
-                        aria-label="Heatmap opacity"
-                    />
+                    <div className="slider-custom">
+                        <Slider
+                            value={[opacity * 100]}
+                            onValueChange={([v]) => setOpacity(v / 100)}
+                            max={100}
+                            step={1}
+                            aria-label="Heatmap opacity"
+                        />
+                    </div>
+                    <style>{`
+                        .slider-custom .bg-primary {
+                            background-color: #6243FC !important;
+                        }
+                        .slider-custom .border-primary {
+                            border-color: #6243FC !important;
+                        }
+                    `}</style>
                 </div>
             </CardContent>
         </Card>

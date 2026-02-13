@@ -98,8 +98,9 @@ export function RetinaViewport({
                     <Button
                         variant="outline"
                         onClick={() => fileInputRef.current?.click()}
+                        className="border-[#6243FC]"
                     >
-                        <Upload className="h-4 w-4 mr-1.5" />
+                        <Upload className="h-4 w-4 mr-1.5" style={{ color: '#6243FC' }} />
                         Upload Image
                     </Button>
                     <input
@@ -156,7 +157,7 @@ export function RetinaViewport({
                         onClick={onRetake}
                         className="gap-1.5"
                     >
-                        <RotateCcw className="h-4 w-4" />
+                        <RotateCcw className="h-4 w-4" style={{ color: '#6243FC' }} />
                         Retake
                     </Button>
                 ) : (
@@ -166,14 +167,15 @@ export function RetinaViewport({
                             onClick={() => fileInputRef.current?.click()}
                             className="gap-1.5"
                         >
-                            <Upload className="h-4 w-4" />
+                            <Upload className="h-4 w-4" style={{ color: '#6243FC' }} />
                             Upload
                         </Button>
                         <Button
                             onClick={handleShutter}
-                            className="gap-1.5"
+                            className="gap-1.5 hover:opacity-90"
+                            style={{ backgroundColor: '#6243FC', color: 'white' }}
                         >
-                            <Camera className="h-4 w-4" />
+                            <Camera className="h-4 w-4" style={{ color: 'white' }} />
                             Capture
                         </Button>
                     </>

@@ -44,7 +44,9 @@ export function PatientFormDialog({ open, onOpenChange, editPatient }: PatientFo
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent 
+                className="sm:max-w-md [&_*::selection]:bg-[#6243FC] [&_*::selection]:text-white"
+            >
                 <DialogHeader>
                     <DialogTitle>{isEdit ? 'Edit Patient' : 'Add Patient'}</DialogTitle>
                     <DialogDescription>
@@ -60,6 +62,7 @@ export function PatientFormDialog({ open, onOpenChange, editPatient }: PatientFo
                             onChange={(e) => setCode(e.target.value)}
                             placeholder="e.g. PT0050"
                             autoFocus
+                            className="focus-visible:ring-2 focus-visible:ring-[#6243FC] focus-visible:border-[#6243FC]"
                         />
                     </div>
                     <div className="space-y-1.5">
@@ -70,12 +73,25 @@ export function PatientFormDialog({ open, onOpenChange, editPatient }: PatientFo
                             onChange={(e) => setNotes(e.target.value)}
                             placeholder="Optional clinical notes…"
                             rows={3}
+                            className="focus-visible:ring-2 focus-visible:ring-[#6243FC] focus-visible:border-[#6243FC]"
                         />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-                    <Button onClick={handleSubmit} disabled={!code.trim()}>
+                    <Button 
+                        variant="outline" 
+                        onClick={() => onOpenChange(false)}
+                        style={{ backgroundColor: '#991b1b', color: '#fee2e2' }}
+                        className="hover:opacity-90"
+                    >
+                        Cancel
+                    </Button>
+                    <Button 
+                        onClick={handleSubmit} 
+                        disabled={!code.trim()}
+                        style={{ backgroundColor: '#6243FC' }}
+                        className="hover:opacity-90"
+                    >
                         {isEdit ? 'Save Changes' : 'Add Patient'}
                     </Button>
                 </DialogFooter>

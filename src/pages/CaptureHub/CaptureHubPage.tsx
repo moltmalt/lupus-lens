@@ -56,7 +56,7 @@ export function CaptureHubPage() {
     }
 
     return (
-        <div className="flex flex-col h-[calc(100vh-2.5rem)]">
+        <div className="flex flex-col h-[calc(100vh-2.5rem)] [&_*::selection]:bg-[#6243FC] [&_*::selection]:text-white">
             <div className="flex-1 overflow-y-auto p-2 space-y-2">
                 {/* Error banner */}
                 {status === 'error' && (
@@ -78,7 +78,7 @@ export function CaptureHubPage() {
                         <Card className="h-full flex flex-col">
                             <CardHeader className="py-1.5 px-2">
                                 <CardTitle className="flex items-center gap-1.5 text-sm">
-                                    <ScanEye className="h-4 w-4 text-primary" />
+                                    <ScanEye className="h-4 w-4" style={{ color: '#6243FC' }} />
                                     Retinal Capture
                                 </CardTitle>
                             </CardHeader>
@@ -98,7 +98,7 @@ export function CaptureHubPage() {
                         <Card className="h-full flex flex-col">
                             <CardHeader className="py-1.5 px-2">
                                 <CardTitle className="flex items-center gap-1.5 text-sm">
-                                    <Dna className="h-4 w-4 text-primary" />
+                                    <Dna className="h-4 w-4" style={{ color: '#6243FC' }} />
                                     Gene Panel
                                 </CardTitle>
                             </CardHeader>
@@ -124,8 +124,14 @@ export function CaptureHubPage() {
 
             {/* Sticky inference button */}
             <div className="p-2 border-t bg-background/80 backdrop-blur-md shrink-0">
-                <Button size="lg" disabled={!canRun} onClick={handleRunInference} className="w-full">
-                    <Cpu className="h-4 w-4 mr-1.5" />
+                <Button 
+                    size="lg" 
+                    disabled={!canRun} 
+                    onClick={handleRunInference} 
+                    className="w-full hover:opacity-90 disabled:opacity-50"
+                    style={{ backgroundColor: '#6243FC', color: 'white' }}
+                >
+                    <Cpu className="h-4 w-4 mr-1.5" style={{ color: 'white' }} />
                     Run Swin-SNN Inference
                 </Button>
                 {!canRun && (
