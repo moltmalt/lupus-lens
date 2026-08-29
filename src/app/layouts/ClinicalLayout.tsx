@@ -52,7 +52,7 @@ export function ClinicalLayout() {
                 {/* Logo */}
                 <div className="flex items-center gap-2 px-3 h-10 border-b border-sidebar-border shrink-0">
                     {!collapsed && (
-                        <span className="text-sm font-semibold truncate">Lupus-Lens</span>
+                        <span className="text-sm font-semibold truncate">Lupus Lens</span>
                     )}
                     <button
                         className="ml-auto md:hidden text-muted-foreground hover:text-foreground"
